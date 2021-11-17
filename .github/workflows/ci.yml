@@ -1,0 +1,28 @@
+name: CI
+
+on:
+    push:
+        branches: [ master ]
+
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            # Setup key
+            -   run: |
+                    set -eu
+                    mkdir "$HOME/.ssh"
+                    echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
+                    chmod 600 "$HOME/.ssh/key"
+
+            # Upload
+            -   run: |
+                    cd dist
+                    rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no -p 51989" \
+                        --archive --compress --delete \
+                        . pxjam@95.213.203.172:/var/www/pxjam/www/base/
