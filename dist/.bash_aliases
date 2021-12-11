@@ -5,7 +5,7 @@
 export VISUAL=micro
 export EDITOR="$VISUAL"
 
-alias mi='micro'
+alias m='micro'
 alias cdw='cd /var/www/'
 alias cden='cd /etc/nginx/sites-available/'
 alias cdlog='cd /var/log/nginx/'
